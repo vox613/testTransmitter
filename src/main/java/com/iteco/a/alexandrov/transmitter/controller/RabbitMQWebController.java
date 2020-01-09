@@ -23,9 +23,8 @@ public class RabbitMQWebController {
     @PostMapping("/message")
     private Response postProducer(@RequestBody Message message) {
         System.out.println("getMsgText = " + message.getMsgText());
-        rabbitMQSender.send(message);
-        Response response = new Response("Done", message);
-        return response;
+        rabbitMQSender.send(message.getMsgText());
+        return new Response("Done", message);
     }
 }
 
