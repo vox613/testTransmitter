@@ -2,8 +2,10 @@ package com.iteco.a.alexandrov.transmitter.controller;
 
 import com.iteco.a.alexandrov.transmitter.model.Message;
 import com.iteco.a.alexandrov.transmitter.model.Response;
-import com.iteco.a.alexandrov.transmitter.service.RabbitMQSender;
+import com.iteco.a.alexandrov.transmitter.service.RabbitMQSenderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,18 +15,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/rest")
 public class RabbitMQWebController {
 
-    private RabbitMQSender rabbitMQSender;
+    private RabbitMQSenderServiceImpl rabbitMQSenderServiceImpl;
 
     @Autowired
-    public RabbitMQWebController(RabbitMQSender rabbitMQSender) {
-        this.rabbitMQSender = rabbitMQSender;
+    public RabbitMQWebController(RabbitMQSenderServiceImpl rabbitMQSenderServiceImpl) {
+        this.rabbitMQSenderServiceImpl = rabbitMQSenderServiceImpl;
     }
 
     @PostMapping("/message")
     private Response postProducer(@RequestBody Message message) {
         System.out.println("getMsgText = " + message.getMsgText());
-        rabbitMQSender.send(message.getMsgText());
+        rabbitMQSenderServiceImpl.send(message.getMsgText());
         return new Response("Done", message);
+
+        // ResponseEntity ResponseEntity<Message> respEnt = new ResponseEntity<>(message, HttpStatus.OK);
     }
 }
 

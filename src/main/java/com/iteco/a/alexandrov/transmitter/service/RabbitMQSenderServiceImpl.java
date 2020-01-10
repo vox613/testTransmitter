@@ -1,14 +1,14 @@
 package com.iteco.a.alexandrov.transmitter.service;
 
-//import com.iteco.a.alexandrov.transmitter.model.Message;
-
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RabbitMQSender {
+public class RabbitMQSenderServiceImpl implements RabbitMQSenderService {
 
     @Value("${rabbitmq.exchange}")
     private String exchange;
@@ -19,13 +19,12 @@ public class RabbitMQSender {
     private AmqpTemplate amqpTemplate;
 
     @Autowired
-    public RabbitMQSender(AmqpTemplate amqpTemplate) {
+    public RabbitMQSenderServiceImpl(AmqpTemplate amqpTemplate) {
         this.amqpTemplate = amqpTemplate;
     }
 
     public void send(String message) {
         amqpTemplate.convertAndSend(exchange, routingkey, message);
         System.out.println("Send msg = " + message);
-
     }
 }
