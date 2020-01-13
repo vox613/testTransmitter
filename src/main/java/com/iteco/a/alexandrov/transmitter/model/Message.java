@@ -22,7 +22,6 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message [msg = " + msgText + " ]";
+        return "{\"msgText\":\"" + msgText + "\"}";
     }
-
 }
